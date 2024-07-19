@@ -2,6 +2,7 @@ const mongoose = require("mongoose")
 const express = require("express")
 const cors = require("cors")
 const cookiParser = require("cookie-parser")
+// const dotenv = require("dotenv")
 require("dotenv").config()
 
 
@@ -14,6 +15,7 @@ app.use(cors({
         : process.env.LIVE_SERVER,
     credentials: true
 }))
+app.use("/api/auth", require("./rotes/auth.routes"))
 app.use("*", (req, res) => {
     res.status(404).json({ message: "Resource Not Found" })
 })

@@ -26,6 +26,6 @@
     "mongoose": "^8.5.1",
     "multer": "^1.4.5-lts.1",
     "nodemailer": "^6.9.14",
-    "validators": "^0.3.1"
+    "validator": "^13.12.0"
   }
 }
