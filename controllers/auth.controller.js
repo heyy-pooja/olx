@@ -1,10 +1,10 @@
 const asyncHandler = require("express-async-handler")
 const validator = require("validator")
-const { checkEmpty } = require("../utils/checkempty")
 const bcrypt = require("bcryptjs")
 const jwt = require("jsonwebtoken")
 const Admin = require("../models/Admin")
 const sendEmail = require("../utils/email")
+const { checkEmpty } = require("./../utils/checkEmpty")
 
 exports.registerAdmin = asyncHandler(async (req, res) => {
     const { name, email, password } = await req.body
