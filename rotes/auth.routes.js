@@ -8,7 +8,7 @@ router
     .post("/logout-admin", authController.logoutAdmin)
 
     .post("/login-mobile-user", authController.loginUser)
-    .post("/register-mobile-user", authController.registerAdmin)
+    .post("/register-mobile-user", authController.registerUser)
     .post("/logout-mobile-user", authController.logoutUser)
 
 module.exports = router
