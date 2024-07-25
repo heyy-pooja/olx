@@ -119,3 +119,53 @@ exports.logoutAdmin = asyncHandler(async (req, res) => {
 })
 
 
+exports.registerUser = asyncHandler(async (req, res) => {
+    const { name, mobile, email, password, cpassword } = req.body
+    const { error, isError } = checkEmpty({
+        name,
+        mobile,
+        email,
+        password,
+        cpassword
+    })
+    if (isError) {
+        return res.json({ message: "All Feild Required", error })
+    }
+    if (!validator.isEmail(email)) { return res.status(404).json({ message: "invalid Email" }) }
+    if (!validator.isMobilePhone(mobile, "en-IN")) { return res.status(404).json({ message: "invalid Mobile Number" }) }
+    if (!validator.isStrongPassword(password)) { return res.status(404).json({ message: "provide Strong Password" }) }
+    if (password !== cpassword) { return res.status(404).json({ message: "Password Do Not Match" }) }
+    const hash = await bcrypt.hash(password, 10)
+    await User.create({ name, mobile, email, password: hash })
+    res.json({ message: "User Register Success" })
+
+})
+
+exports.loginUser = asyncHandler(async (req, res) => {
+    const { email, password } = req.body
+    const { error, isError } = checkEmpty({ email, password })
+    if (isError) { return res.status(404).json({ message: "All Feild Require", }) }
+
+    const result = await User.findOne({ email })
+    if (!result) {
+        return res.status(401).json({ message: "Email Not Found" })
+    }
+    const verify = await bcrypt.compare(password, result.password)
+    if (!verify) {
+        return res.status(401).json({ message: "Password Do Not Match" })
+    }
+    const token = jwt.sign({ userId: result._id }, process.env.JWT_KEY, { expiresIn: "180d" })
+
+    res.cookie("user", token, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "productin",
+        maxAge: 1000 * 60 * 60 * 24 * 180
+    })
+
+    res.json({ message: "User Register Success" })
+})
+exports.logoutUser = asyncHandler(async (req, res) => {
+    res.clearCookie("User")
+    res.json({ message: "User Logout Success" })
+})
+
