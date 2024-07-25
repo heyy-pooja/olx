@@ -165,7 +165,7 @@ exports.loginUser = asyncHandler(async (req, res) => {
     res.json({ message: "User Register Success" })
 })
 exports.logoutUser = asyncHandler(async (req, res) => {
-    res.clearCookie("User")
+    res.clearCookie("user")
     res.json({ message: "User Logout Success" })
 })
 
