@@ -3,7 +3,7 @@ const userController = require("../controllers/user.controller")
 const { userProtected } = require("../middleware/protected")
 
 router
-    .post("/verify-user-email", userProtected, userController.registerAdmin)
+    .post("/verify-user-email", userProtected, userController.verifyUserEmail)
 
 
 module.exports = router
