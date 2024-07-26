@@ -8,5 +8,5 @@ exports.verifyUserEmail = asyncHandler(async (req, res) => {
     await User.findByIdAndUpdate(req.loggedInUser, { emailCode: otp })
     sendEmail({ to: result.email, subject: "Verify Email", message: otp })
 
-    res.json({ message: "Verification send Success", result })
+    res.json({ message: "Verification send Success" })
 })
