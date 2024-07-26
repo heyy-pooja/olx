@@ -1,9 +1,9 @@
 const router = require("express").Router()
-const useController = require("../controllers/user.controller")
+const userController = require("../controllers/user.controller")
 const { userProtected } = require("../middleware/protected")
 
 router
-    .post("/verify-user-email", userProtected, useController.registerAdmin)
+    .post("/verify-user-email", userProtected, userController.registerAdmin)
 
 
 module.exports = router
