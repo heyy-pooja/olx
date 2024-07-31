@@ -69,11 +69,20 @@ exports.verifyMobileOTP = asyncHandler(async (req, res) => {
 })
 
 exports.addPost = asyncHandler(async (req, res) => {
-    const { title, desc, price, images, location, category } = req.body
+    const { title, desc, price, images, location, category, gps } = req.body
     const { error, isError } = checkEmpty({ title, desc, price, images, location, category })
     if (isError) {
         return res.status(400).json({ message: "All Feilds Are Require", error })
     }
+    if (gps) {
+
+        const response = await fetch(`https://api.opencagedata.com/geocode/v1/json?key=${process.env.OPEN_CAGE_API_KEY}=${location.latitude}%2C${location.longitude}&pretty=1&no_annotations=1`)
+        const x = await response.json()
+        console.log(x)
+    }
+    // api call to openCage
+    // modify this code to support cloudinary
+
 
 
     await Posts.create({ title, desc, price, images, location, category, user: req.loggedInUser })
