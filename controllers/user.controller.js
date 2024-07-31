@@ -78,7 +78,7 @@ exports.getLocation = asyncHandler(async (req, res) => {
     const x = await response.json()
     // console.log(x)
     // const x = await response.json()
-    res.json({ message: "Location Ftch Success", result: results[0].formatted })
+    res.json({ message: "Location Ftch Success", result: x.results[0].formatted })
 
 })
 exports.addPost = asyncHandler(async (req, res) => {
