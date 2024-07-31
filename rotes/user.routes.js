@@ -10,6 +10,7 @@ router
     .post("/verify-user-mobile-otp", userProtected, userController.verifyMobileOTP)
 
     .post("/add-post", userProtected, userController.addPost)
+    .post("/get-location", userProtected, userController.getLocation)
 
 
 
