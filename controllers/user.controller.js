@@ -3,6 +3,8 @@ const User = require("../models/User")
 const sendEmail = require("../utils/email")
 const { checkEmpty } = require("../utils/checkEmpty")
 const Posts = require("../models/Posts")
+const cloudinary = require("../utils/cloudinary.config")
+const upload = require("../utils/upload")
 
 exports.verifyUserEmail = asyncHandler(async (req, res) => {
     const result = await User.findById(req.loggedInUser)
@@ -90,15 +92,35 @@ exports.addPost = asyncHandler(async (req, res) => {
             return res.status(400).json({ message: "All Feilds Are Require", error })
         }
         console.log(req.files)
+        const images = []
+
+        for (const item of req.files) {
+            const { secure_url } = await cloudinary.uploader.upload(item.path)
+            images.push(secure_url)
+        }
 
         // api call to openCage
         // modify this code to support cloudinary
 
 
 
-        // await Posts.create({ title, desc, price, images, location, category, user: req.loggedInUser })
+        await Posts.create({
+            title,
+            desc,
+            price,
+            images,
+            location,
+            category,
+            user: req.loggedInUser
+        })
         res.json({ message: "posts Create Success" })
     })
+})
+
+exports.getAllPosts = asyncHandler(async (req, res) => {
+    const result = await Post.find()
+    res.json({ message: "post fetch success", result })
+
 })
 
 

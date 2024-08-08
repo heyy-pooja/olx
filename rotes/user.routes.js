@@ -12,6 +12,8 @@ router
     .post("/add-post", userProtected, userController.addPost)
     .post("/get-location", userProtected, userController.getLocation)
 
+    .get("/posts", userController.getAllPosts)
+
 
 
 module.exports = router
