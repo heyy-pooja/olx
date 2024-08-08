@@ -82,17 +82,26 @@ exports.getLocation = asyncHandler(async (req, res) => {
 
 })
 exports.addPost = asyncHandler(async (req, res) => {
-    const { title, desc, price, images, location, category } = req.body
-    const { error, isError } = checkEmpty({ title, desc, price, images, location, category })
-    if (isError) {
-        return res.status(400).json({ message: "All Feilds Are Require", error })
-    }
+    upload(req, res, async err => {
 
-    // api call to openCage
-    // modify this code to support cloudinary
+        const { title, desc, price, location, category } = req.body
+        const { error, isError } = checkEmpty({ title, desc, price, location, category })
+        if (isError) {
+            return res.status(400).json({ message: "All Feilds Are Require", error })
+        }
+        console.log(req.files)
+
+        // api call to openCage
+        // modify this code to support cloudinary
 
 
 
-    await Posts.create({ title, desc, price, images, location, category, user: req.loggedInUser })
-    res.json({ message: "posts Create Success" })
+        // await Posts.create({ title, desc, price, images, location, category, user: req.loggedInUser })
+        res.json({ message: "posts Create Success" })
+    })
 })
+
+
+
+// host
+// test
